@@ -7,7 +7,7 @@ export const env = createEnv({
         OPENAI_API_KEY: z.string(),
         DBURL: z.string(),
         EMAILPASS: z.string(),
-        USERIDKEY: z.string()
+        USERIDTOKEN: z.string()
     },
     runtimeEnv: process.env,
 });

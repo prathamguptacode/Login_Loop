@@ -5,8 +5,6 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import type { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { run } from '@openai/agents';
-import { codingAgent } from './agent/codingAgent.js';
 import questionRoute from './routes/questionRoute.js'
 
 const app = express();
