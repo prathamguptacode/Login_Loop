@@ -25,12 +25,3 @@ app.get('/', (req: Request, res: Response) => {
 app.use(questionRoute)
 
 app.listen(env.PORT, () => console.log(`Server on PORT ${process.env.PORT}`));
-
-
-const result = await run(codingAgent,'what is a gpu?',{stream: true})
-
-// result
-//   .toTextStream({
-//     compatibleWithNodeStreams: true,
-//   })
-//   .pipe(process.stdout);
