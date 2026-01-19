@@ -12,6 +12,7 @@ import jwt from 'jsonwebtoken';
 import user from '../model/users.js';
 import blockedUsers from '../model/blockedUsers.js';
 import messages from '../model/messages.js';
+import type { userInstructionT } from '../context/context.js';
 
 async function askQuestion(req: Request, res: Response) {
     const question = req.body?.question;
@@ -20,6 +21,11 @@ async function askQuestion(req: Request, res: Response) {
     }
     let session: OpenAIConversationsSession;
     let userId: string;
+
+    let userContext: userInstructionT = {
+        name: '',
+        instruction: '',
+    };
 
     const userTokenCookie = req.cookies.userToken;
     if (userTokenCookie) {
@@ -51,6 +57,12 @@ async function askQuestion(req: Request, res: Response) {
                 });
             }
             //blocking logic (end)
+            if (myUser?.name && myUser.instruction) {
+                userContext = {
+                    name: myUser?.name,
+                    instruction: myUser?.instruction,
+                };
+            }
             await user.updateOne(
                 { userId: userId },
                 { $inc: { messageNumber: 1 } },
@@ -88,6 +100,7 @@ async function askQuestion(req: Request, res: Response) {
     try {
         const result = await run(codingAgent, question, {
             session: session,
+            context: userContext
         });
         const myMessage = new messages({
             userId: userId,

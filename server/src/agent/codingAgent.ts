@@ -8,6 +8,8 @@ import {
 import { inputguardAgent, outputguardAgent } from './guardrailAgent.js';
 import sendEmailtool from '../tool/sendEmail.js';
 import getInfo from '../tool/getInfo.js';
+import type { userInstructionT } from '../context/context.js';
+import { userInstruction } from '../tool/userInstruction.js';
 
 const inputGuardrail: InputGuardrail = {
     name: 'input guardrail',
@@ -31,7 +33,7 @@ const outputGuardrail: OutputGuardrail = {
     },
 };
 
-export const codingAgent = new Agent({
+export const codingAgent = new Agent<userInstructionT>({
     name: 'coding agent',
     instructions: `You are a computer tutor agent.
 
@@ -77,5 +79,5 @@ YOUR NAME IS LOGIC LOOP
     //quiz integration
     inputGuardrails: [inputGuardrail],
     outputGuardrails: [outputGuardrail],
-    tools: [codeInterpreterTool(), sendEmailtool, getInfo],
+    tools: [codeInterpreterTool(), sendEmailtool, getInfo, userInstruction],
 });

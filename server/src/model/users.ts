@@ -19,10 +19,11 @@ const user = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    messageNumber:{
+    messageNumber: {
         type: Number,
-        default: 0
-    }
+        default: 0,
+    },
+    instruction: String,
 });
 
 export default mongoose.model('user', user);
