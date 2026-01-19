@@ -1,14 +1,28 @@
-import mongoose  from "mongoose";
+import mongoose from 'mongoose';
 
-const user=new mongoose.Schema({
+const user = new mongoose.Schema({
     userId: {
         type: String,
-        required: true
+        required: true,
     },
-    conversationId:{
+    conversationId: {
         type: String,
-        required: true
+        required: true,
+    },
+    email: {
+        type: String,
+        unique: true,
+    },
+    password: String,
+    name: String,
+    subscriber: {
+        type: Boolean,
+        default: false,
+    },
+    messageNumber:{
+        type: Number,
+        default: 0
     }
-})
+});
 
-export default mongoose.model('user',user)
+export default mongoose.model('user', user);

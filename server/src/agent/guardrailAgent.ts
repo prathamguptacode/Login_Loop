@@ -44,7 +44,7 @@ Your goal is guidance, not restriction.
         reason: z
             .string()
             .describe(
-                'reason for your choice and fact if question is not related to computer',
+                'fun fact for user and also telling them that question is not related to computers otherwise is question is related to computer then nothing',
             ),
         isAllowed: z
             .boolean()
@@ -91,7 +91,7 @@ Your goal is to ensure safety and relevance, not censorship.
         reason: z
             .string()
             .describe(
-                'reason for your choice and fact if question is not related to computer',
+                'fun fact for user and also telling them that question is not related to computers otherwise is question is related to computer then nothing',
             ),
         isAllowed: z
             .boolean()

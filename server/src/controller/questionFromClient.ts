@@ -10,6 +10,7 @@ import { codingAgent } from '../agent/codingAgent.js';
 import { env } from '../config/evn.js';
 import jwt from 'jsonwebtoken';
 import user from '../model/users.js';
+import blockedUsers from '../model/blockedUsers.js';
 
 async function askQuestion(req: Request, res: Response) {
     const question = req.body?.question;
@@ -27,6 +28,35 @@ async function askQuestion(req: Request, res: Response) {
             ) as jwt.JwtPayload;
             const userId = userToken.userId;
             const myUser = await user.findOne({ userId: userId });
+            //blocking logic (start)
+            const blockedUser = await blockedUsers.findOne({ userId: userId });
+            if (blockedUser) {
+                return res
+                    .status(403)
+                    .json({
+                        message:
+                            'please buy subscription to continue or come after 24hr',
+                    });
+            }
+            if (myUser?.messageNumber && myUser?.messageNumber > 10) {
+                const newBlockedUser = new blockedUsers({
+                    userId: myUser?.userId,
+                    conversationId: myUser?.conversationId
+                });
+                await newBlockedUser.save();
+                await user.updateOne({ userId: userId },{messageNumber: 1})
+                return res
+                    .status(403)
+                    .json({
+                        message:
+                            'please buy subscription to continue or come after 24hr',
+                    });
+            }
+            //blocking logic (end)
+            await user.updateOne(
+                { userId: userId },
+                { $inc: { messageNumber: 1 } },
+            );
             const coversationId = myUser?.conversationId;
             if (coversationId) {
                 session = new OpenAIConversationsSession({
@@ -57,8 +87,8 @@ async function askQuestion(req: Request, res: Response) {
     }
 
     try {
-        const result = await run(codingAgent, question,{
-            session: session
+        const result = await run(codingAgent, question, {
+            session: session,
         });
         res.json({ result: result.finalOutput });
     } catch (error) {
