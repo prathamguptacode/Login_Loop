@@ -25,6 +25,7 @@ async function askQuestion(req: Request, res: Response) {
     let userContext: userInstructionT = {
         name: '',
         instruction: '',
+        email: '',
     };
 
     const userTokenCookie = req.cookies.userToken;
@@ -57,10 +58,11 @@ async function askQuestion(req: Request, res: Response) {
                 });
             }
             //blocking logic (end)
-            if (myUser?.name && myUser.instruction) {
+            if (myUser?.name && myUser?.instruction && myUser?.email) {
                 userContext = {
                     name: myUser?.name,
                     instruction: myUser?.instruction,
+                    email: myUser?.email,
                 };
             }
             await user.updateOne(
@@ -100,7 +102,7 @@ async function askQuestion(req: Request, res: Response) {
     try {
         const result = await run(codingAgent, question, {
             session: session,
-            context: userContext
+            context: userContext,
         });
         const myMessage = new messages({
             userId: userId,

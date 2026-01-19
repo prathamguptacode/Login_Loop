@@ -9,7 +9,7 @@ import user from '../model/users.js';
 import { OpenAIConversationsSession } from '@openai/agents';
 import nodemailer from 'nodemailer';
 
-async function signUp(req: Request, res: Response) {
+export async function signUp(req: Request, res: Response) {
     if (!req.body) {
         return res.status(400).json({ message: 'req body not found' });
     }
@@ -72,7 +72,7 @@ Logic Loop
     mailTransporter.sendMail(mailDetails);
 };
 
-async function verify(req: Request, res: Response) {
+export async function verify(req: Request, res: Response) {
     const otp = req.body?.otp;
     if (!otp) {
         return res.status(400).json({ message: 'invalid input' });
@@ -152,7 +152,7 @@ async function verify(req: Request, res: Response) {
     }
 }
 
-async function login(req: Request, res: Response) {
+export async function login(req: Request, res: Response) {
     if (!req.body) {
         return res.status(400).json({ message: 'req body not found' });
     }
@@ -179,12 +179,12 @@ async function login(req: Request, res: Response) {
     });
 }
 
-async function logout(req: Request, res: Response) {
+export async function logout(req: Request, res: Response) {
     res.clearCookie('userToken');
     return res.json('logged out successfully');
 }
 
-async function getName(req: Request, res: Response) {
+export async function getName(req: Request, res: Response) {
     const userTokenCookie = req.cookies.userToken;
     if (!userTokenCookie) {
         return res.status(400).json({ message: 'name not found' });

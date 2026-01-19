@@ -11,6 +11,6 @@ export const userInstruction = tool({
         _args,
         runContext?: RunContext<userInstructionT>,
     ): Promise<string> => {
-        return `user name is ${runContext?.context.name} and his speacial instructions are ${runContext?.context.instruction}`;
+        return `user's name is ${runContext?.context.name}, his email is ${runContext?.context.email} and his speacial instructions are ${runContext?.context.instruction}`;
     },
 });
