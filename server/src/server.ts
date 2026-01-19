@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import type { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import questionRoute from './routes/questionRoute.js'
+import history from './routes/history.js'
 
 const app = express();
 app.use(cors());
@@ -21,5 +22,6 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use(questionRoute)
+app.use(history)
 
 app.listen(env.PORT, () => console.log(`Server on PORT ${process.env.PORT}`));

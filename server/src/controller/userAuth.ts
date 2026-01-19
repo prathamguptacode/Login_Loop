@@ -164,6 +164,9 @@ async function login(req: Request, res: Response) {
     if (!myUser) {
         res.status(403).json({ message: 'you do not have a account' });
     }
+    if(!myUser?.password){
+        return res.status(500).json({message: 'something went wrong'})
+    }
     const result = brcypt.compareSync(password, myUser?.password);
     if (!result) {
         return res.status(403).json({ message: 'invalid password' });
