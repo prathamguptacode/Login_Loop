@@ -1,0 +1,35 @@
+.navbar{
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  height: 60px;
+}
+.logo{
+  font-size: 28px;
+  font-weight: 800;
+}
+.login{
+  margin-left: auto;
+}
+.parent{
+  margin: auto;
+  max-width: 1200px;
+  border: 2px solid white;
+  height: calc(100vh - 60px);
+  position: relative;
+}
+.inbox{
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  display: flex;
+  gap: 4px;
+}
+.message{
+  all: unset;
+  flex: 1;
+  background-color: hsl(0, 0%, 15%);
+  color: white;
+  height: 20px;
+  padding: 12px;
+}
