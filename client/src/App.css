@@ -19,6 +19,7 @@
   position: relative;
 }
 .inbox{
+  height: 46px;
   position: absolute;
   bottom: 0px;
   width: 100%;
@@ -33,6 +34,20 @@
   height: 20px;
   padding: 12px;
 }
-.user{
-  margin: 4px 20px;
+
+.messageArea{
+  height: calc(100% - 50px);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid red;
+}
+
+.userM{
+  margin: 8px;
+  padding: 4px 12px;
+  width: fit-content;
+  border-radius: 16px;
+  background-color: hsl(0, 0%, 30%);
+  align-self: flex-end;
 }
