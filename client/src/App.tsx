@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import api from './axios/api';
+import Markdown from 'react-markdown';
 function App() {
     type messageType = {
         user: string;
@@ -10,6 +11,7 @@ function App() {
 
     const [message, setMessage] = useState<messageType[]>([]);
     const messageAreaR = useRef<HTMLDivElement>(null);
+    const [thinking, setThinking] = useState(0);
 
     function handleEnter(e: React.KeyboardEvent) {
         if (e.code == 'Enter') {
@@ -20,12 +22,31 @@ function App() {
     }
 
     useEffect(() => {
-        if (messageAreaR.current) {
-            messageAreaR.current.scrollTop = messageAreaR.current?.scrollHeight;
-        }
-        if(message[message.length - 1].user){
-            api.post('/ask')
-        }
+        (async () => {
+            if (messageAreaR.current) {
+                messageAreaR.current.scrollTop =
+                    messageAreaR.current?.scrollHeight;
+            }
+
+            if (message[message.length - 1]?.user) {
+                const body = {
+                    question: message[message.length - 1].user,
+                };
+                try {
+                    setThinking(1);
+                    const res = await api.post('/ask', body);
+                    console.log(res);
+                    setMessage((prev) => [
+                        ...prev,
+                        { user: '', comp: res.data.result },
+                    ]);
+                    setThinking(0);
+                } catch (error) {
+                    console.log(error);
+                    console.log('Something went wrong');
+                }
+            }
+        })();
     }, [message]);
 
     return (
@@ -40,9 +61,14 @@ function App() {
                                   return <div className="userM">{e.user}</div>;
                               }
                               if (e.comp) {
-                                  return <div className="compM">{e.comp}</div>;
+                                  return (
+                                      <div className="compM">
+                                          <Markdown>{e.comp}</Markdown>
+                                      </div>
+                                  );
                               }
                           })}
+                    {thinking ? <div className="loader"></div> : null}
                 </div>
                 <div className="inbox">
                     <input

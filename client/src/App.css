@@ -40,7 +40,6 @@
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  border: 2px solid red;
 }
 
 .userM{
@@ -50,4 +49,33 @@
   border-radius: 16px;
   background-color: hsl(0, 0%, 30%);
   align-self: flex-end;
+  max-width: 40%;
+}
+.compM{
+  margin: 8px;
+  padding: 12px 16px;
+  width: fit-content;
+  border-radius: 16px;
+  background-color: hsl(0, 0%, 28%);
+  align-self: flex-start;
+  max-width: 60%;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  margin: 12px 16px;
+  width: fit-content;
+  font-family: monospace;
+  font-size: 15px;
+  clip-path: inset(0 3ch 0 0);
+  animation: l4 0.9s steps(4) infinite;
+}
+.loader:before {
+  content:"thinking..."
+}
+@keyframes l4 {to{clip-path: inset(0 -1ch 0 0)}}
+
+
+hr{
+  margin: 8px 0;
 }
