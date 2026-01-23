@@ -42,6 +42,19 @@ function App() {
                     ]);
                     setThinking(0);
                 } catch (error) {
+                    if (
+                        error.response.data.message ==
+                        'please buy subscription to continue or come after 24hr'
+                    ) {
+                        setMessage((prev) => [
+                            ...prev,
+                            {
+                                user: '',
+                                comp: 'please buy subscription to continue or come after 24hr',
+                            },
+                        ]);
+                        setThinking(0);
+                    }
                     console.log(error);
                     console.log('Something went wrong');
                 }
